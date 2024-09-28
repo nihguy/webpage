@@ -1,0 +1,36 @@
+name: Build and Deploy 
+
+permissions:
+  contents: write  
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up C Compiler
+        run: sudo apt-get install build-essential
+
+      - name: Compile C Program
+        run: |
+          gcc main.c
+          ./a.out
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --local user.name "nihguy"
+          git config --local user.email "victor.w.developer+github@gmail.com"
+          git checkout --orphan gh-pages
+          git rm -rf .
+          git add index.html 
+          git commit -m "update gh-pages"
+          git push --force origin gh-pages
+
