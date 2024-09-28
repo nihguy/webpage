@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
+#include <unistd.h>
 
 int main() {
     char buffer[0x1000];
     long physical, logical;
     FILE* fp;
 
-    physical = 0;
-    logical = 0;
+    physical = sysconf(_SC_NPROCESSORS_CONF);
+    logical = sysconf(_SC_NPROCESSORS_ONLN);
 
     snprintf(buffer, sizeof(buffer), 
              "<!DOCTYPE html>\n"
